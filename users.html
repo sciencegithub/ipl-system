@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+<script>
+
+
+function login(){
+    let email = document.getElementById("email");
+let password = document.querySelector("input[type='password']");
+    if (email.value === "" || password.value === "") {
+        alert("Please fill in all fields.");
+        return;
+    }
+    let users = {
+        email: email.value,
+        password: password.value
+    }
+
+    fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(users)
+
+    }).then((res)=> res.json())
+    .then((data)=> {
+        localStorage.setItem("token", data.token)
+        window.location.href = "dashboard.html";
+    })
+    .catch((err) => console.error("Error:", err));
+}
+
+</script>
+</head>
+<body>
+<div class="container">
+        
+                <h2>Login</h2>
+                <input type="email" name="email" placeholder="Email" id="email" required>
+                <input type="password" name="password" placeholder="Password" id="password" required>
+                <button type="submit" value="login" onclick="login()">Login</button>
+               
+       
+ </div>
+
+</body>
+</html>
